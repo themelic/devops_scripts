@@ -24,56 +24,54 @@ PARAMETER1=$2
 PARAMETER2=$3
 
 case "${ACTION}" in
-  usage)
+usage)
 
 ## System Load and Resource Usage Monitoring
-clear
-echo "System Load: $(uptime)"
-echo "Free Memory: $(free -h | grep Mem | awk '{print $4}')"
-echo "Free Disk Space: $(df -h / | grep / | awk '{print $4}')"
-;;
+    clear
+    echo "System Load: $(uptime)"
+    echo "Free Memory: $(free -h | grep Mem | awk '{print $4}')"
+    echo "Free Disk Space: $(df -h / | grep / | awk '{print $4}')"
+    ;;
 
 ## Check var\log errors
-    varlog)
-
-   # Define the log file
-   LOG_FILE="/var/log/syslog"
-   # Search for errors in the log file
-   ERRORS=$(grep "error" "$LOG_FILE")
-   # Filter out irrelevant data
-   ERRORS=$(echo "$ERRORS" | sed -e "s/.*error: //" -e "s/ at .*$//")
-   # Count the number of errors
-   ERROR_COUNT=$(echo "$ERRORS" | wc -l)
-   # Display the results
-   echo "Found $ERROR_COUNT errors:"
-   echo "$ERRORS" > errors.txt ;;
+varlog)
+    clear
+    # Define the log file
+    LOG_FILE="/var/log/syslog"
+    # Search for errors in the log file
+    ERRORS=$(grep "error" "$LOG_FILE")
+    # Filter out irrelevant data
+    ERRORS=$(echo "$ERRORS" | sed -e "s/.*error: //" -e "s/ at .*$//")
+    # Count the number of errors
+    ERROR_COUNT=$(echo "$ERRORS" | wc -l)
+    # Display the results
+    echo "Found $ERROR_COUNT errors:"
+    echo "$ERRORS" > errors.txt ;;
 
 ##User Account Management
-  usercreate)
+usercreate)
     sudo useradd "${PARAMETER1}"  ;;
-  userdelete)
+userdelete)
     sudo userdel -r "${PARAMETER1}" ;;
-  userupdate)
+userupdate)
     sudo passwd "${PARAMETER1}" ;;
 
 ## Check system apt updates and  upgrades 
-    update)
+update)
       sudo apt-get update && apt-get upgrade -y ;;
 
-
-  backup)
-
 ##AUTOMATED BACKUP WITH TIMESTAMP
-## SOURCE="/path/to/your/important/files"
-## DESTINATION="/path/to/your/backup/directory"
-
-SOURCE="${PARAMETER1}"
-DESTINATION="${PARAMETER2}"
-TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-
-tar czf "${DESTINATION}/backup_${TIMESTAMP}.tar.gz" "${SOURCE}"
+backup)
+    ## SOURCE="/path/to/your/important/files"
+    ## DESTINATION="/path/to/your/backup/directory"
+    
+    clear
+    SOURCE="${PARAMETER1}"
+    DESTINATION="${PARAMETER2}"
+    TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+    
+    tar czf "${DESTINATION}/backup_${TIMESTAMP}.tar.gz" "${SOURCE}"
 ;;
-
 
 ## No action is used so this is the end of the script
 *)
