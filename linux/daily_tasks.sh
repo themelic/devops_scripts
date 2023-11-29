@@ -76,7 +76,7 @@ backup)
 ## No action is used so this is the end of the script
 *)
     echo "Opps ! You mistype it ; you have to add missing action." 
-    echo "Usage: ./daily_task.sh [usage|update|varlog|backup|create|delete|update] [parameter1|username] [parameter2|username]"
+    echo "Usage: ./daily_task.sh [usage|varlog|backup|usercreate|userdelete|userupdate] [parameter1|username] [parameter2]"
     echo "Please use your daily action and use necessary parameters"
     ;;
 esac
