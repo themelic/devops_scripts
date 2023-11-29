@@ -23,6 +23,16 @@ ACTION=$1
 PARAMETER1=$2
 PARAMETER2=$3
 
+read -p "This script will perform system maintenance tasks.
+   Your command is $ACTION and the parameters of the command are : [$PARAMETER1,$PARAMETER2] 
+   Are you sure you want to proceed? (y/n) " confirm
+
+   if [[ $confirm != [yY] ]]; then
+      echo "Aborting script."
+      exit 1
+   fi
+
+
 case "${ACTION}" in
 usage)
 
